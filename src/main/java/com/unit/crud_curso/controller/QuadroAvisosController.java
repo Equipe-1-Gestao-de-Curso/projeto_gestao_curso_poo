@@ -10,18 +10,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unit.crud_curso.repository.QuadroAvisosRepo;
+import com.unit.crud_curso.model.QuadroAvisos;
+
 import com.unit.crud_curso.repository.UserRepo;
 import com.unit.crud_curso.model.Usuarios;
 @RestController
-@RequestMapping(value="/users")
-public class UserController {
+@RequestMapping(value="/avisos")
+public class QuadroAvisosController {
   
   @Autowired
-  private UserRepo userRepo;
+  private QuadroAvisosRepo quadroAvisosRepo;
   
   @GetMapping
-  public List<Usuarios> findAll(@RequestBody Usuarios usuarioLogado){
-    return userRepo.findAll();
+  public List<QuadroAvisos> findAll(@RequestBody Usuarios usuarioLogado){
+    if(usuarioLogado.getPerfilAcesso() != "Adm"){
+      return quadroAvisosRepo.findAll();
+
+    }
+    else{
+      return ;
+    }
   }
 
   @PostMapping
