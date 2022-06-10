@@ -1,9 +1,11 @@
 package com.unit.crud_curso.controller;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+//import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,25 +20,38 @@ import com.unit.crud_curso.model.Usuarios;
 @RestController
 @RequestMapping(value="/avisos")
 public class QuadroAvisosController {
-  
+
   @Autowired
   private QuadroAvisosRepo quadroAvisosRepo;
+  private UserRepo userRepo;
   
-  @GetMapping
-  public List<QuadroAvisos> findAll(@RequestBody Usuarios usuarioLogado){
-    if(usuarioLogado.getPerfilAcesso() != "Adm"){
-      return quadroAvisosRepo.findAll();
+  // @GetMapping
+  // public List<QuadroAvisos> findAll(@RequestBody Usuarios usuarioLogado){
+  //   if(usuarioLogado.getPerfilAcesso() != "Adm"){
+  //     return quadroAvisosRepo.findAll();
 
-    }
-    else{
-      return ;
-    }
-  }
+  //   }
+  //   else{
+  //     return ;
+  //   }
+  // }
 
   @PostMapping
-  public Usuarios save(@RequestBody Usuarios novoUsuario){
-    userRepo.save(novoUsuario);
-    return novoUsuario;
+  public QuadroAvisos save(@RequestBody QuadroAvisos novoQuadroAvisos){
+    Usuarios userVazio = new Usuarios();
+    Usuarios usuarioBD = userRepo.findById(novoQuadroAvisos.getAutor()).orElse(userVazio);
+    if(usuarioBD.getPerfilAcesso() == "Coord" || usuarioBD.getPerfilAcesso() == "Prof"){
+      String timeStamp = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+      novoQuadroAvisos.setDataCriacao(timeStamp);
+      novoQuadroAvisos.setDataModificacao(timeStamp);
+      quadroAvisosRepo.save(novoQuadroAvisos);
+      return novoQuadroAvisos;
+    }
+    else{
+      QuadroAvisos quadroVazio = new QuadroAvisos();
+      return quadroVazio;
+    }
+   
   }
 
   @PutMapping

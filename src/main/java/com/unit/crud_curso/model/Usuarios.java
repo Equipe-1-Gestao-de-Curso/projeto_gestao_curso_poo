@@ -1,8 +1,11 @@
 package com.unit.crud_curso.model;
 
+
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
 @Entity
 public class Usuarios {
   private Long id;
@@ -13,6 +16,17 @@ public class Usuarios {
   private String cpf;
   private String perfilAcesso;
   private String senha;
+
+  // @OneToMany(mappedBy = "usuarios")
+  // private List<QuadroAvisos> quadroAvisos;
+
+  // public List<QuadroAvisos> getAvisos() {
+  //   return quadroAvisos;
+  // }
+
+  // public void setAvisos(List<QuadroAvisos> quadroAvisos) {
+  //   this.quadroAvisos = quadroAvisos;
+  // }
 
   public Usuarios(){
   }

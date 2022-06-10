@@ -20,7 +20,7 @@ public class UserController {
   private UserRepo userRepo;
   
   @GetMapping
-  public List<Usuarios> findAll(@RequestBody Usuarios usuarioLogado){
+  public List<Usuarios> findAll(){
     return userRepo.findAll();
   }
 
